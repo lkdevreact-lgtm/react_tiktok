@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { VideoTexture, DoubleSide } from "three";
 
 const vertexShader = /* glsl */ `
@@ -35,6 +35,15 @@ export const GreenScreenVideo = ({ videoSrc, position, scale }) => {
   const videoRef = useRef();
   const textureRef = useRef();
 
+  const uniforms = useMemo(
+    () => ({
+      uTexture: { value: null },
+      uThreshold: { value: 0.35 },
+      uSmoothing: { value: 0.08 },
+    }),
+    []
+  );
+
   useEffect(() => {
     if (!videoSrc) return;
 
@@ -46,6 +55,7 @@ export const GreenScreenVideo = ({ videoSrc, position, scale }) => {
     video.muted = true;
     video.playsInline = true;
     video.autoplay = true;
+    video.load();
 
     const texture = new VideoTexture(video);
     videoRef.current = video;
@@ -53,18 +63,18 @@ export const GreenScreenVideo = ({ videoSrc, position, scale }) => {
 
     video.play().catch((e) => console.warn("Video play error:", e));
 
+    uniforms.uTexture.value = texture;
     if (meshRef.current) {
-      meshRef.current.material.uniforms.uTexture.value = texture;
       meshRef.current.material.needsUpdate = true;
     }
 
     return () => {
       video.pause();
-      video.src = "";
-      video.muted = false
+      video.removeAttribute('src');
+      video.load();
       texture.dispose();
     };
-  }, [videoSrc]);
+  }, [videoSrc, uniforms]);
 
   return (
     <mesh
@@ -78,11 +88,7 @@ export const GreenScreenVideo = ({ videoSrc, position, scale }) => {
         fragmentShader={fragmentShader}
         transparent
         side={DoubleSide}
-        uniforms={{
-          uTexture: { value: null },
-          uThreshold: { value: 0.35 },
-          uSmoothing: { value: 0.08 },
-        }}
+        uniforms={uniforms}
       />
     </mesh>
   );

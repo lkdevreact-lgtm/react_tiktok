@@ -41,7 +41,7 @@ const arrModels = [
 
 const SelectThumbnail = () => {
   const selectedVideo = useVideoStore((s) => s.selectedVideo);
-  const setSelectedVideo = useVideoStore((s) => s.setSelectedVideo);
+  const setSelected = useVideoStore((s) => s.setSelected);
 
   return (
     <section className="fixed inset-0 z-10 flex items-center justify-center pointer-events-none">
@@ -55,7 +55,7 @@ const SelectThumbnail = () => {
             return (
               <div
                 key={model.id}
-                onClick={() => setSelectedVideo(model.video)}
+                onClick={() => setSelected(model.video, model.sound)}
                 className="w-full flex items-center justify-between px-3 cursor-pointer pointer-events-auto rounded-xl py-1 transition-all"
                 style={{
                   background: isSelected
