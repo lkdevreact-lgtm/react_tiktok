@@ -52,7 +52,7 @@ export const GreenScreenVideo = ({ videoSrc, position, scale }) => {
     video.src = videoSrc;
     video.crossOrigin = "anonymous";
     video.loop = true;
-    video.muted = true;
+    video.muted = false;
     video.playsInline = true;
     video.autoplay = true;
     video.load();

@@ -7,41 +7,36 @@ const arrModels = [
     name: "Model 1",
     image: "/images-modal/avatar-1.jpg",
     video: "/video/pony.mp4",
-    sound: "/sound/tiktok_audio_1.mp3"
   },
   {
     id: 2,
     name: "Model 2",
     image: "/images-modal/avatar-1.jpg",
     video: "/video/font-2.mp4",
-    sound: "/sound/tiktok_audio_1.mp3"
   },
   {
     id: 3,
     name: "Model 3",
     image: "/images-modal/avatar-1.jpg",
     video: "/video/pony.mp4",
-    sound: "/sound/tiktok_audio_1.mp3"
   },
   {
     id: 4,
     name: "Model 4",
     image: "/images-modal/avatar-1.jpg",
     video: "/video/pony.mp4",
-    sound: "/sound/tiktok_audio_1.mp3"
   },
   {
     id: 5,
     name: "Model 5",
     image: "/images-modal/avatar-1.jpg",
     video: "/video/pony.mp4",
-    sound: "/sound/tiktok_audio_1.mp3"
   },
 ];
 
 const SelectThumbnail = () => {
   const selectedVideo = useVideoStore((s) => s.selectedVideo);
-  const setSelected = useVideoStore((s) => s.setSelected);
+  const setSelectedVideo = useVideoStore((s) => s.setSelectedVideo);
 
   return (
     <section className="fixed inset-0 z-10 flex items-center justify-center pointer-events-none">
@@ -55,7 +50,7 @@ const SelectThumbnail = () => {
             return (
               <div
                 key={model.id}
-                onClick={() => setSelected(model.video, model.sound)}
+                onClick={() => setSelectedVideo(model.video)}
                 className="w-full flex items-center justify-between px-3 cursor-pointer pointer-events-auto rounded-xl py-1 transition-all"
                 style={{
                   background: isSelected
